@@ -1,0 +1,10 @@
+Issue Type;Priority;Issue key;Issue id;Summary;Status;Created;Assignee;Reporter
+Task;Minor;PVWCID-298;4992039;Описать сайзинги продукта;In Progress;25/Nov/24 16:43;out-kaymachnikov.m.k;vgastrakhantsev
+Task;Minor;PVWCID-286;4911909;Разработка сбора метрик с инстансов пайплайнеров;In Progress;07/Oct/24 13:47;out-kaymachnikov.m.k;out-shepelev.a.s
+Task;Major;PVWCID-273;4842741;Подготовить среду для демонстрации;Closed;27/Aug/24 12:28;out-trifonov.a.i;out-kaymachnikov.m.k
+Task;Minor;PVWCID-272;4829095;Разработка функции генерации конфигурации для Маршрутизатора команд;Resolved;19/Aug/24 15:54;out-shepelev.a.s;out-kaymachnikov.m.k
+Task;Minor;PVWCID-271;4829094;Разработка прототипа взаимодействия Распределителя команд с Маршрутизатором команд;Closed;19/Aug/24 15:53;out-artanov.d.n;out-kaymachnikov.m.k
+Task;Minor;PVWCID-261;4747626;Определение правил распределения команд;In Progress;29/Jul/24 11:01;out-kaymachnikov.m.k;out-kaymachnikov.m.k
+Story;Minor;PVWCID-248;4740367;"Предварительный анализ, выбор и согласование концепции";Resolved;23/Jul/24 17:12;out-kaymachnikov.m.k;out-kaymachnikov.m.k
+Story;Minor;PVWCID-241;4740307;Разработка Распределителя команд;In Progress;23/Jul/24 16:15;out-kaymachnikov.m.k;out-kaymachnikov.m.k
+Task;Minor;PVWCID-240;4739958;Разработка Маршрутизатора команд - анализ;Closed;23/Jul/24 15:27;out-kaymachnikov.m.k;out-kaymachnikov.m.k

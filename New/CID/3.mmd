@@ -1,0 +1,8 @@
+graph TD
+    A[Namespace]
+    A --> B[Pipeliner Active Pod]
+    A --> C[Pipeliner Standby Pod #1]
+    A --> D[Pipeliner Standby Pod #2]
+    B & C & D --> E[RWX Persistent Volume]
+    C & D -->|RSYNC| E
+

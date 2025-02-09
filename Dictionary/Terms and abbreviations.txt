@@ -1,0 +1,5 @@
+Terms and abbreviations:
+Цифровые активы
+$OPD = "Organizing Personal Data" - мой главный личный проект, цель которого: приведение к полному порядку всего массива данных, который 
+$PIE = "Personal Information Environment"
+$

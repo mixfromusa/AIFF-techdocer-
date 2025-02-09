@@ -1,0 +1,114 @@
+<#
+.SYNOPSIS
+    Extracts GitHub OAuth application data from HTML files.
+.DESCRIPTION
+    Scans HTML files containing GitHub OAuth application settings and extracts relevant information into JSON format.
+.PARAMETER InputFile
+    Path to the input HTML file.
+.PARAMETER OutputFile
+    Path to the output JSON file.
+.EXAMPLE
+    .\Extract-GitHubOAuthApps.ps1 -InputFile "github_settings.html" -OutputFile "oauth_apps.json"
+#>
+
+[CmdletBinding()]
+param (
+    [Parameter(Mandatory = $true)]
+    [string]$InputFile,
+
+    [Parameter(Mandatory = $false)]
+    [string]$OutputFile = "github_oauth_apps.json"
+)
+
+# Function to extract data using regex pattern
+function Get-RegexMatch {
+    param (
+        [string]$Content,
+        [string]$Pattern,
+        [switch]$AllMatches
+    )
+
+    try {
+        if ($AllMatches) {
+            $matches = [regex]::Matches($Content, $Pattern)
+            return $matches | ForEach-Object { $_.Groups[1].Value }
+        }
+        else {
+            if ($Content -match $Pattern) {
+                return $matches[1]
+            }
+        }
+    }
+    catch {
+        Write-Warning "Error matching pattern: $Pattern"
+        Write-Warning $_.Exception.Message
+        return $null
+    }
+}
+
+# Function to extract OAuth app blocks
+function Get-OAuthAppBlocks {
+    param ([string]$Content)
+
+    $blockPattern = '(?s)<div id="oauth-authorization-[^"]+".+?</div>\s*</details>'
+    return [regex]::Matches($Content, $blockPattern) | ForEach-Object { $_.Value }
+}
+
+try {
+    # Verify input file exists
+    if (-not (Test-Path $InputFile)) {
+        throw "Input file not found: $InputFile"
+    }
+
+    # Read the input file
+    $htmlContent = Get-Content -Path $InputFile -Raw -ErrorAction Stop
+
+    # Define regex patterns for field extraction
+    $patterns = @{
+        AppName         = 'class="developer-app-name"[^>]*>([^<]+)<'
+        AppLink         = 'class="developer-app-name"[^>]*href="([^"]+)"'
+        Organization    = 'Owned by <a[^>]*>([^<]+)<'
+        OrgLink         = 'Owned by <a[^>]*href="([^"]+)"'
+        LastUsed        = 'Last used within the last ([^·]+)'
+        AvatarUrl       = 'class="CircleBadge-icon"[^>]*src="([^"]+)"'
+        AppId           = 'data-id="([^"]+)"'
+        AppType         = 'data-type="([^"]+)"'
+        BgColor         = 'style="background-color:\s*([^";\s]+)'
+    }
+
+    # Initialize results array
+    $apps = @()
+
+    # Extract individual OAuth app blocks
+    $appBlocks = Get-OAuthAppBlocks -Content $htmlContent
+
+    # Process each app block
+    foreach ($block in $appBlocks) {
+        $app = @{}
+
+        foreach ($field in $patterns.GetEnumerator()) {
+            $value = Get-RegexMatch -Content $block -Pattern $field.Value
+            if ($value) {
+                $app[$field.Key] = $value.Trim()
+            }
+        }
+
+        if ($app.Count -gt 0) {
+            $apps += [PSCustomObject]$app
+        }
+    }
+
+    # Convert to JSON and save
+    $jsonOutput = @{
+        ExtractedAt = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+        TotalApps = $apps.Count
+        Apps = $apps
+    } | ConvertTo-Json -Depth 10
+
+    Set-Content -Path $OutputFile -Value $jsonOutput -Force
+    Write-Host "Successfully extracted $($apps.Count) OAuth apps to $OutputFile"
+}
+catch {
+    Write-Error "Error processing file: $_"
+    exit 1
+}

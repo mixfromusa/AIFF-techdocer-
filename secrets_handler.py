@@ -1,0 +1,256 @@
+import re
+z
+import os
+from pathlib import Path
+from typing import Dict, Set, Tuple, List
+import json
+import time
+from datetime import datetime
+
+# ANSI цвета для красивого вывода
+class Colors:
+    HEADER = '\033[95m'
+    BLUE = '\033[94m'
+    CYAN = '\033[96m'
+    GREEN = '\033[9
+    RED = '\033[91m'
+    END = '\033[0m'
+    BOLD = '\033[1m'
+
+def print_header(text: str):
+    print(f"\n{Colors.HEADER}{Colors.BOLD}=== {text} ==={Colors.END}")
+
+def print_success(text: str):
+    print(f"{Colors.GREEN}✓ {text}{Colors.END}")
+
+def print_warning(text: str):
+    print(f"{Colors.WARNING}! {text}{Colors.END}")
+
+def print_error(text: str):
+    print(f"{Colors.RED}✗ {text}{Colors.END}")
+
+def print_info(text: str):
+    print(f"{Colors.CYAN}ℹ {text}{Colors.END}")
+
+def print_progress_bar(current: int, total: int, prefix: str = '', length: int = 50):
+    filled = int(length * current / total)
+    bar = '█' * filled + '░' * (length - filled)
+    percent = int(100 * current / total)
+    print(f'\r{Colors.BLUE}{prefix} |{bar}| {percent}%{Colors.END}', end='\r')
+    if current == total:
+        print()
+
+class SecretsHandler:
+    def __init__(self):
+        # Паттерны для поиска секретов
+        self.secret_patterns = {
+            'api_key': r'(?i)(api[_-]key|apikey|api[_-]token)["\']?\s*[:=]\s*["\']([^"\']+)["\']',
+            'password': r'(?i)(password|passwd|pwd)["\']?\s*[:=]\s*["\']([^"\']+)["\']',
+            'token': r'(?i)(token|access_token|auth_token)["\']?\s*[:=]\s*["\']([^"\']+)["\']',
+            'secret': r'(?i)(secret|app_secret|client_secret)["\']?\s*[:=]\s*["\']([^"\']+)["\']',
+            'connection_string': r'(?i)(connection[_-]string)["\']?\s*[:=]\s*["\']([^"\']+)["\']',
+        }
+        
+        self.ignored_values = {
+            'your_api_key', 'your_token', 'your_password', 'placeholder',
+            'example_key', 'test_key', 'dummy_key', 'sample_key',
+            'xxx', 'xxxxxx', '*****', '...', 'undefined', 'null'
+        }
+        
+        self.found_secrets: Dict[str, Dict[str, str]] = {}
+        self.env_mappings: Dict[str, str] = {}
+        self.processed_files: Set[str] = set()
+        self.start_time = time.time()
+
+    def is_secret_value(self, value: str) -> bool:
+        """Проверяет, является ли значение секретом"""
+        if len(value) < 8 or value.lower() in self.ignored_values:
+            return False
+        
+        has_special = bool(re.search(r'[!@#$%^&*(),.?":{}|<>]', value))
+        has_numbers = bool(re.search(r'\d', value))
+        has_letters = bool(re.search(r'[a-zA-Z]', value))
+        
+        return (has_special or (has_numbers and has_letters))
+
+    def generate_env_var_name(self, secret_type: str, file_path: str) -> str:
+        """Генерирует имя переменной окружения для секрета"""
+        base_name = os.path.splitext(os.path.basename(file_path))[0]
+        base_name = re.sub(r'[^a-zA-Z0-9_]', '_', base_name)
+        var_name = f"{secret_type.upper()}_{base_name.upper()}"
+        
+        original_name = var_name
+        counter = 1
+        while var_name in self.env_mappings.values():
+            var_name = f"{original_name}_{counter}"
+            counter += 1
+            
+        return var_name
+
+    def process_file(self, file_path: str) -> Tuple[str, List[Tuple[str, str, str]]]:
+        """Обрабатывает файл, ища и заменяя секреты"""
+        if file_path in self.processed_files:
+            return "", []
+
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+        except (UnicodeDecodeError, PermissionError):
+            return "", []
+
+        modified_content = content
+        replacements = []
+
+        for secret_type, pattern in self.secret_patterns.items():
+            matches = re.finditer(pattern, content)
+            for match in matches:
+                full_match = match.group(0)
+                secret_value = match.group(2)
+                
+                if not self.is_secret_value(secret_value):
+                    continue
+
+                env_var = self.generate_env_var_name(secret_type, file_path)
+                
+                if file_path not in self.found_secrets:
+                    self.found_secrets[file_path] = {}
+                self.found_secrets[file_path][env_var] = secret_value
+                
+                self.env_mappings[secret_value] = env_var
+                
+                replacement = full_match.replace(secret_value, f"${env_var}")
+                replacements.append((full_match, replacement, env_var))
+                
+                modified_content = modified_content.replace(full_match, replacement)
+
+        self.processed_files.add(file_path)
+        return modified_content, replacements
+
+    def create_env_file(self, output_dir: str = "."):
+        """Создает .env файл с найденными секретами"""
+        print_header("Создание .env файлов")
+        
+        env_content = f"""# Environment Variables
+# Generated by secrets_handler.py
+# Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+
+"""
+        sorted_secrets = sorted(
+            [(env_var, secret) for secret, env_var in self.env_mappings.items()],
+            key=lambda x: x[0]
+        )
+        
+        for env_var, secret in sorted_secrets:
+            env_content += f'{env_var}="{secret}"\n'
+        
+        env_file_path = os.path.join(output_dir, ".env")
+        with open(env_file_path, 'w', encoding='utf-8') as f:
+            f.write(env_content)
+        print_success(f"Создан файл {env_file_path}")
+        
+        example_content = f"""# Environment Variables Example
+# Generated by secrets_handler.py
+# Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+# Replace these values with your actual secrets
+
+"""
+        for env_var, _ in sorted_secrets:
+            example_content += f'{env_var}="your_{env_var.lower()}_here"\n'
+        
+        example_path = os.path.join(output_dir, ".env.example")
+        with open(example_path, 'w', encoding='utf-8') as f:
+            f.write(example_content)
+        print_success(f"Создан файл {example_path}")
+
+    def create_report(self, output_dir: str = "."):
+        """Создает отчет о найденных и замененных секретах"""
+        print_header("Создание отчета")
+        
+        elapsed_time = time.time() - self.start_time
+        
+        report = {
+            "summary": {
+                "scan_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                "execution_time_seconds": round(elapsed_time, 2),
+                "total_files_processed": len(self.processed_files),
+                "total_secrets_found": len(self.env_mappings),
+                "files_with_secrets": len(self.found_secrets)
+            },
+            "files": {}
+        }
+
+        for file_path, secrets in self.found_secrets.items():
+            report["files"][file_path] = {
+                "secrets_count": len(secrets),
+                "environment_variables": secrets
+            }
+
+        report_path = os.path.join(output_dir, "secrets_report.json")
+        with open(report_path, 'w', encoding='utf-8') as f:
+            json.dump(report, f, indent=2)
+        print_success(f"Создан отчет {report_path}")
+
+def main():
+    handler = SecretsHandler()
+    
+    print_header("Поиск секретов")
+    print_info("Инициализация...")
+    
+    # Получаем список всех файлов для обработки
+    text_extensions = {'.py', '.js', '.json', '.yml', '.yaml', '.env', '.txt', '.md', '.cfg', '.conf'}
+    
+    # Сначала подсчитаем общее количество файлов
+    total_files = 0
+    for root, _, files in os.walk('.'):
+        if any(ignored in root for ignored in ['/node_modules/', '/dist/', '/build/', '/.git/', 'New/REPO']):
+            continue
+        total_files += sum(1 for f in files if os.path.splitext(f)[1] in text_extensions)
+    
+    print_info(f"Найдено {total_files} файлов для обработки")
+    
+    # Обработка файлов
+    processed = 0
+    for root, _, files in os.walk('.'):
+        if any(ignored in root for ignored in ['/node_modules/', '/dist/', '/build/', '/.git/', 'New/REPO']):
+            continue
+            
+        for file in files:
+            if os.path.splitext(file)[1] in text_extensions:
+                file_path = os.path.join(root, file)
+                processed += 1
+                
+                print_progress_bar(processed, total_files, 
+                                prefix=f'Обработка файлов: {processed}/{total_files}')
+                
+                modified_content, replacements = handler.process_file(file_path)
+                
+                if replacements:
+                    print_warning(f"\nНайдены секреты в файле {file_path}:")
+                    for original, replacement, env_var in replacements:
+                        print_info(f"  → Заменено '{original}' на '{replacement}'")
+                    
+                    # Создаем бэкап и сохраняем измененный файл
+                    backup_path = file_path + '.bak'
+                    os.rename(file_path, backup_path)
+                    with open(file_path, 'w', encoding='utf-8') as f:
+                        f.write(modified_content)
+    
+    # Создаем .env файл и отчет
+    handler.create_env_file()
+    handler.create_report()
+    
+    # Итоговая статистика
+    print_header("Итоги обработки")
+    print_success(f"Обработано файлов: {len(handler.processed_files)}")
+    print_success(f"Найдено секретов: {len(handler.env_mappings)}")
+    print_success(f"Файлов с секретами: {len(handler.found_secrets)}")
+    print_info("\nСозданные файлы:")
+    print_info("- .env - содержит найденные секреты")
+    print_info("- .env.example - содержит шаблон с плейсхолдерами")
+    print_info("- secrets_report.json - подробный отчет о найденных секретах")
+    
+    elapsed = time.time() - handler.start_time
+    print_header(f"Выполнено за {elapsed:.2f} секунд")
+
+if __name__ == "__main__":
+    main()

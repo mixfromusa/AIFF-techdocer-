@@ -1,0 +1,14 @@
+templates:
+  - section: executive_summary
+    format: markdown
+    required_fields:
+      - key_achievements
+      - major_challenges
+      - next_steps
+      
+  - section: detailed_metrics
+    format: table
+    data_sources:
+      - metrics_dashboard
+      - project_tracker
+      - time_logs

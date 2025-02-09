@@ -1,0 +1,141 @@
+ <!-- '"` --><!-- </textarea></xmp> --><form data-turbo=3D"false" action=
+=3D"https://github.com/settings/connections/applications/d3e83520a7d28aa8d8=
+2f/report" accept-charset=3D"UTF-8" method=3D"post">
+    <p class=3D"h4 border-top mt-3 pt-3">More options</p>
+    <div class=3D"form-checkbox">
+      <label>
+        <input type=3D"checkbox" name=3D"revoke" aria-describedby=3D"help-t=
+ext-for-revoke">
+        Revoke Composio
+      </label>
+      <p class=3D"note mb-1" id=3D"help-text-for-revoke">
+        Revoking will deny future access to your account
+      </p>
+    </div>
+
+    <button type=3D"submit" class=3D"btn btn-block btn-danger" autofocus=3D=
+"" data-close-dialog=3D"">Report Composio</button>
+</form></div>
+
+
+  </details-dialog>
+</details>
+
+     =20
+<details class=3D"details-reset details-overlay details-overlay-dark lh-def=
+ault color-fg-default ">
+  <summary class=3D"dropdown-item btn-link menu-item-danger" role=3D"button=
+">
+    Revoke
+  </summary>
+  <details-dialog aria-label=3D"Are you sure you want to revoke authorizati=
+on?" class=3D"Box Box--overlay d-flex flex-column anim-fade-in fast " role=
+=3D"dialog" aria-modal=3D"true">
+    <div class=3D"Box-header">
+      <button class=3D"Box-btn-octicon btn-octicon float-right" type=3D"but=
+ton" aria-label=3D"Close dialog" data-close-dialog=3D"">
+        <svg aria-hidden=3D"true" height=3D"16" viewBox=3D"0 0 16 16" versi=
+on=3D"1.1" width=3D"16" data-view-component=3D"true" class=3D"octicon octic=
+on-x">
+    <path d=3D"M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0=
+ 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.=
+275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751=
+.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"></path>
+</svg>
+      </button>
+        <h3 class=3D"Box-title ">Are you sure you want to revoke authorizat=
+ion?</h3>
+    </div>
+   =20
+        <div class=3D"Box-body overflow-auto">
+  <p class=3D"mb-3">
+    Composio will no longer be able to access your GitHub account. You cann=
+ot undo this action.
+  </p>
+
+  <!-- '"` --><!-- </textarea></xmp> --><form data-turbo=3D"false" action=
+=3D"https://github.com/settings/connections/applications/d3e83520a7d28aa8d8=
+2f" accept-charset=3D"UTF-8" method=3D"post">
+    <button type=3D"submit" class=3D"btn btn-block btn-danger" autofocus=3D=
+"" data-close-dialog=3D"">I understand, revoke access</button>
+</form></div>
+
+
+  </details-dialog>
+</details>
+  </div>
+</details>
+
+              </div>
+            </div>
+
+          </div>
+
+
+
+          <div id=3D"oauth-authorization-d7251d40ac9298bdd9fe" class=3D"js-=
+revoke-item" data-id=3D"d7251d40ac9298bdd9fe" data-type=3D"application">
+
+            <div class=3D"border-top">
+
+              <div class=3D"TableObject py-3">
+                <div class=3D"TableObject-item">
+                  <a class=3D"CircleBadge CircleBadge--small float-left" st=
+yle=3D"background-color: #181819" href=3D"https://github.com/settings/conne=
+ctions/applications/d7251d40ac9298bdd9fe">
+                    <img class=3D"CircleBadge-icon" alt=3D"DEV" src=3D"http=
+s://avatars.githubusercontent.com/oa/295487?s=3D60&amp;u=3D34fbaf79b9ee6f5e=
+f379d4b3f8fb1d978d9ff675&amp;v=3D4" height=3D"30" width=3D"30">
+</a>                </div>
+                <div class=3D"TableObject-item TableObject-item--primary px=
+-3">
+                  <span class=3D"text-bold color-fg-default">
+                    <a class=3D"developer-app-name" href=3D"https://github.=
+com/settings/connections/applications/d7251d40ac9298bdd9fe">DEV</a>
+                  </span>
+
+
+                  <p class=3D"text-small color-fg-muted mb-0 mt-1">
+                    Last used within the last 3 months =C2=B7 Owned by <a c=
+lass=3D"Link--inTextBlock" href=3D"https://github.com/thepracticaldev">thep=
+racticaldev</a>
+                  </p>
+                </div>
+                  <details class=3D"details-reset details-overlay position-=
+relative d-inline-block js-dropdown-details">
+    <summary aria-haspopup=3D"true" aria-label=3D"Show more options" data-v=
+iew-component=3D"true" class=3D"btn-link">    <svg aria-label=3D"Show more =
+options" aria-hidden=3D"true" height=3D"16" viewBox=3D"0 0 16 16" version=
+=3D"1.1" width=3D"16" data-view-component=3D"true" class=3D"octicon octicon=
+-kebab-horizontal">
+    <path d=3D"M8 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM1.5 9a1.5 1.5 0 1 =
+0 0-3 1.5 1.5 0 0 0 0 3Zm13 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path>
+</svg>
+</summary>
+  <div class=3D"dropdown-menu dropdown-menu-sw mt-1 color-fg-default anim-s=
+cale-in" style=3D"right: -10px;">
+   =20
+<details class=3D"details-reset details-overlay details-overlay-dark lh-def=
+ault color-fg-default ">
+  <summary class=3D"dropdown-item btn-link" role=3D"button">
+    Report abuse
+  </summary>
+  <details-dialog aria-label=3D"Report Abuse" class=3D"Box Box--overlay d-f=
+lex flex-column anim-fade-in fast " role=3D"dialog" aria-modal=3D"true">
+    <div class=3D"Box-header">
+      <button class=3D"Box-btn-octicon btn-octicon float-right" type=3D"but=
+ton" aria-label=3D"Close dialog" data-close-dialog=3D"">
+        <svg aria-hidden=3D"true" height=3D"16" viewBox=3D"0 0 16 16" versi=
+on=3D"1.1" width=3D"16" data-view-component=3D"true" class=3D"octicon octic=
+on-x">
+    <path d=3D"M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0=
+ 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.=
+275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751=
+.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"></path>
+</svg>
+      </button>
+        <h3 class=3D"Box-title ">Report Abuse</h3>
+    </div>
+   =20
+      <div class=3D"Box-body overflow-auto">
+  Reporting DEV will contact Support about abuse on the application.

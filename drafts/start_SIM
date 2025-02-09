@@ -1,0 +1,12 @@
+
+{
+    "modeId": "summarization",
+    "modeDescriptionPath": {
+        "schema": "http://example.com/schemas/summarization-schema.json",
+        "description": "Режим предназначен для создания краткого и точного резюме текста. Объекты содержат текст для обработки и параметры, такие как длина итогового текста. Пример запроса: {\"text\": \"Очень длинный текст\", \"length\": 100}. Пример ответа: {\"summary\": \"Краткое резюме текста.\"}"
+    },
+    "parameters": {
+        "additionalModes": ["keywordExtraction"]
+    }
+}
+

@@ -1,0 +1,53 @@
+# To ignore files with specific extensions, add them like this: *.log
+# Please make sure to ignore binary or unsupported text encoding files
+
+# Ignore specific directories
+New/REPO/
+New/REPO/**/*
+New/ToETL/
+
+# IDE and system files
+.idea/
+.vscode/
+.DS_Store
+.Trash-*
+Thumbs.db
+
+# Build and dependency directories
+node_modules/
+dist/
+build/
+bin/
+obj/
+__pycache__/
+
+# Package files
+package-lock.json
+yarn.lock
+tsconfig.json
+
+# Binary and media files
+*.svg
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.webp
+*.eot
+*.ttf
+*.pdf
+*.zip
+*.rar
+*.7z
+*.exe
+*.dll
+*.bin
+
+# Other common files to ignore
+*.log
+*.tmp
+*.temp
+*.cache
+*.bak
+*.swp

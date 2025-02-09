@@ -1,0 +1,61 @@
+# Commmon naming rules
+
+## meta
+
+- path: 
+- title: "Common naming rules"
+- document_type: 
+- aliases: "Na
+
+Resources
+Resource Hub
+
+Mikhail`s K 
+User.Personal.Knowledge_base.Main.Index
+
+При этом независмо от выбранного варианта:
+User = resources.owner Mikhail K = KaimachnikovMK = mixfromrus = mixdelta = mixfromusa ="Kaimachnikov Mikhail Konstantinovich",
+- причём для реального имени, независимо от формы записи могут применяться:
+  - разные языки записи, в основном: русский а английский;
+  - буквы верхнего регистра: ибо все первые буквы всех слов в имени либо
+  - разные способы написания на латинице отдельных звуков:  х = kh = h;  й = i = y и др., согласно правилам литерации (старой и новой версии правил);
+  - несколько стилей разделителей слов и инициалов: слитно, пробелы, нижние подчёркивания
+  - инициалы 
+- для псевдонимов - первые буквы сокращений в акронимах могут писаться как в верхнем, так и в нижнем регистре, тогда как остальные буквы всегда должны быть всегда должны быть в нижнем.
+- для названий ролей:
+  - как у реальных имён должны проверяться минимум 2 языка: английский и русский, только вместо звуков здесь работает перевод слов;
+  - В верхнем регистре могут быть любые буквы, с которых начинается:
+    - имя объекта в составе роли (например: KnowledgeBase)
+    - первые буквы ключевых слов (без частиц, союзов, предлогов) или сокращений в имени
+  - правила те же, что и для псевдонимов, только ещё у них, как и с реальными именами может быть 
+
+
+
+Resources Overview  
+Resource Hub  
+
+User Information  
+User: Mikhail K  
+Personal Knowledge Base: User.Personal.Knowledge_base.Main.Index  
+
+Name Variations  
+For the real name "Kaimachnikov Mikhail Konstantinovich," the following variations may apply:  
+- Different languages: Russian and English  
+- Uppercase letters: All first letters of each word in the name may be capitalized  
+- Different transliteration methods for specific sounds:  
+  - х = kh = h  
+  - й = i = y  
+- Various word and initial separators:  
+  - No spaces, spaces, underscores  
+- Initials may be used  
+
+Pseudonym Guidelines  
+For pseudonyms, the first letters of acronyms can be in either uppercase or lowercase, while all other letters must be in lowercase.  
+
+Role Name Guidelines  
+For role names, the following checks should be performed:  
+- Minimum of two languages: English and Russian, focusing on word translations  
+- Uppercase letters may include:  
+  - Any letter starting the object name  
+  - First letters of key words (excluding articles, conjunctions, prepositions) or abbreviations in the name  
+- The same rules for capitalization apply as for pseudonyms, with the addition that real names may also follow these guidelines.

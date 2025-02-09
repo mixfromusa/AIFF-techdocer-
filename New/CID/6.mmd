@@ -1,0 +1,7 @@
+graph TD
+    A[OS File System]
+    A --> B[Active Container Data Folder]
+    A --> C[Standby Container Data Folder #1]
+    A --> D[Standby Container Data Folder #2]
+    C & D -->|RSYNC| B
+

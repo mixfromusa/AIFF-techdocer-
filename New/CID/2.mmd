@@ -1,0 +1,7 @@
+graph TD
+    A[Namespace Network #1] --> B[Active Pod Data Folder]
+    A --> C[Standby Pod #1 Data Folder]
+    A --> D[Standby Pod #2 Data Folder]
+    B & C & D --> E[NFS Server]
+    E -->|Network Latency| F[RSYNC]
+

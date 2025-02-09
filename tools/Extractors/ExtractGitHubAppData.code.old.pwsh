@@ -1,0 +1,48 @@
+# Input and output file paths
+$inputFile = "input.html"  # Входной HTML-файл
+$outputFile = "output.json"  # Выходной JSON-файл
+
+# Read the input file
+$htmlContent = Get-Content -Path $inputFile -Raw
+
+# Define regex patterns for extracting fields
+$patterns = @{
+    AppName           = 'developer-app-name[^>]*>([^<]+)<'
+    AppLink           = 'developer-app-name[^>]*href="([^"]+)"'
+    Organization      = 'Owned by <a[^>]*href="[^"]+">([^<]+)<'
+    OrganizationLink  = 'Owned by <a[^>]*href="([^"]+)"'
+    LastUsed          = 'Last used within the last ([^<]+)'
+    AvatarLink        = '<img[^>]*class="CircleBadge-icon"[^>]*src="([^"]+)"'
+    AppID             = 'data-id="([^"]+)"'
+    AppType           = 'data-type="([^"]+)"'
+    BackgroundColor   = 'style="background-color: ([^;]+);"'
+    SettingsLink      = '<a[^>]*href="([^"]+)"[^>]*class="developer-app-name"'
+    RevokeAction      = '<button[^>]*class="btn btn-block btn-danger"[^>]*>([^<]+)<'
+    ReportAbuseAction = '<summary[^>]*class="dropdown-item btn-link"[^>]*>[^<]*Report abuse[^<]*</summary>'
+}
+
+# Initialize an array to store extracted data
+$results = @()
+
+# Scan the HTML content for matches
+foreach ($pattern in $patterns.GetEnumerator()) {
+    $matches = [regex]::Matches($htmlContent, $pattern.Value)
+    foreach ($match in $matches) {
+        $results += [PSCustomObject]@{
+            FieldName = $pattern.Key
+            Value     = $match.Groups[1].Value
+        }
+    }
+}
+
+# Group results by field name and create a JSON structure
+$jsonOutput = $results | Group-Object -Property FieldName | ForEach-Object {
+    @{
+        $_.Name = $_.Group | ForEach-Object { $_.Value }
+    }
+} | ConvertTo-Json -Depth 10 -Compress
+
+# Save the JSON output to a file
+Set-Content -Path $outputFile -Value $jsonOutput -Force
+
+Write-Host "Extraction complete. Results saved to $outputFile"
